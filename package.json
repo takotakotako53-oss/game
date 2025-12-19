@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "main": "main.ts",
   "scripts": {
-    "start": "npm run build && npx http-server .",
-    "build": "tsc main.ts --outFile main.js"
+    "start": "npm run build && npx http-server dist",
+    "build": "tsc main.ts --outDir dist",
+    "deploy": "npm run build && npx gh-pages -d dist"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
     "ts-node": "^10.0.0",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "gh-pages": "^6.0.0"
   }
 }
