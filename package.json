@@ -1,0 +1,14 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "main.ts",
+  "scripts": {
+    "start": "npm run build && npx http-server .",
+    "build": "tsc main.ts --outFile main.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.0.0",
+    "http-server": "^14.1.1"
+  }
+}
