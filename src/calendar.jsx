@@ -148,7 +148,7 @@ const Calendar = () => {
           {errors.hourlyWage && <span className="error">{errors.hourlyWage}</span>}
         </div>
         <div className="input-group">
-          <label htmlFor="workHours">労働時間（時間）</label>
+          <label htmlFor="workHours">1回の労働時間（時間）</label>
           <input
             id="workHours"
             type="number"
