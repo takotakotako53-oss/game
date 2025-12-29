@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Privacy = () => {
   return (
-    <div className="privacy-container">
-      <div className="privacy-content">
+    <main className="privacy-container">
+      <article className="privacy-content">
         <h1>プライバシーポリシー</h1>
         <p className="last-updated">最終更新日: {new Date().toLocaleDateString('ja-JP')}</p>
         
@@ -67,11 +67,11 @@ const Privacy = () => {
           </p>
         </section>
 
-        <div className="back-link">
+        <nav className="back-link">
           <Link to="/">← カレンダーに戻る</Link>
-        </div>
-      </div>
-    </div>
+        </nav>
+      </article>
+    </main>
   );
 };
 

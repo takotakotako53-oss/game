@@ -119,9 +119,9 @@ const Calendar = () => {
   };
 
   return (
-    <div className="calendar-container">
-      <div className="input-section">
-        <h2>シフト計算</h2>
+    <main className="calendar-container">
+      <section className="input-section" aria-label="シフト計算フォーム">
+        <h1>シフト計算</h1>
         <div className="input-group">
           <label htmlFor="targetAmount">目標金額（円）</label>
           <input
@@ -164,18 +164,27 @@ const Calendar = () => {
         <button className="generate-button" onClick={generateShift}>
           シフト生成
         </button>
-      </div>
+      </section>
 
-      <div className="calendar-header">
-        <button className="month-nav-button" onClick={() => changeMonth(-1)}>
-          ←
-        </button>
-        <h1>{displayYear}年 {monthNames[displayMonth]}</h1>
-        <button className="month-nav-button" onClick={() => changeMonth(1)}>
-          →
-        </button>
-      </div>
-      <div className="calendar">
+      <section className="calendar-section" aria-label="カレンダー">
+        <header className="calendar-header">
+          <button 
+            className="month-nav-button" 
+            onClick={() => changeMonth(-1)}
+            aria-label="前の月"
+          >
+            ←
+          </button>
+          <h2>{displayYear}年 {monthNames[displayMonth]}</h2>
+          <button 
+            className="month-nav-button" 
+            onClick={() => changeMonth(1)}
+            aria-label="次の月"
+          >
+            →
+          </button>
+        </header>
+        <div className="calendar" role="grid" aria-label={`${displayYear}年${monthNames[displayMonth]}のカレンダー`}>
         <div className="calendar-weekdays">
           {weekDays.map((day, index) => (
             <div key={index} className="weekday">
@@ -199,10 +208,11 @@ const Calendar = () => {
           })}
         </div>
       </div>
+      </section>
       <footer className="calendar-footer">
         <Link to="/privacy">プライバシーポリシー</Link>
       </footer>
-    </div>
+    </main>
   );
 };
 
