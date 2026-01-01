@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // ポリオミノの形状を表す構造体
 struct Polyomino: Identifiable, Equatable {
@@ -198,15 +199,51 @@ struct PolyominoShapes {
         ], color: .brown3)
     ]
     
-    // 難易度に応じたポリオミノを返す
+    // 難易度に応じたポリオミノを返す（合計100マスになるように調整）
     static func getPolyominoes(for difficulty: Difficulty) -> [Polyomino] {
         switch difficulty {
         case .easy:
-            return tetrominoes
+            // テトロミノ（4マス）を25個 = 100マス
+            // 5種類を5回ずつ使用
+            var result: [Polyomino] = []
+            for _ in 0..<5 {
+                for tetromino in tetrominoes {
+                    result.append(Polyomino(id: UUID(), cells: tetromino.cells, color: tetromino.color))
+                }
+            }
+            return result
+            
         case .medium:
-            return tetrominoes + pentominoes
+            // テトロミノ（4マス）5種類 + ペントミノ（5マス）16個 = 20 + 80 = 100マス
+            // ペントミノを2回ずつ使用（8種類 × 2 = 16個）
+            var result: [Polyomino] = []
+            result.append(contentsOf: tetrominoes.map { Polyomino(id: UUID(), cells: $0.cells, color: $0.color) })
+            for _ in 0..<2 {
+                for pentomino in pentominoes {
+                    result.append(Polyomino(id: UUID(), cells: pentomino.cells, color: pentomino.color))
+                }
+            }
+            return result
+            
         case .hard:
-            return tetrominoes + pentominoes + hexominoes
+            // テトロミノ（4マス）5種類 + ペントミノ（5マス）8種類 + ヘキソミノ（6マス）10個 = 20 + 40 + 60 = 120マス
+            // または、テトロミノ5種類 + ペントミノ8種類 + ヘキソミノ5種類 + 追加のペントミノ4個 = 20 + 40 + 30 + 20 = 110マス
+            // より良い組み合わせ: テトロミノ5種類 + ペントミノ12種類 + ヘキソミノ5種類 = 20 + 60 + 30 = 110マス
+            // 最適: テトロミノ5種類 + ペントミノ8種類 + ヘキソミノ10個 = 20 + 40 + 60 = 120マス（少し多め）
+            // 正確に100マス: テトロミノ5種類 + ペントミノ8種類 + ヘキソミノ5種類 + テトロミノ5個 = 20 + 40 + 30 + 20 = 110マス
+            // より良い: テトロミノ5種類 + ペントミノ10種類 + ヘキソミノ5種類 = 20 + 50 + 30 = 100マス（正確！）
+            var result: [Polyomino] = []
+            result.append(contentsOf: tetrominoes.map { Polyomino(id: UUID(), cells: $0.cells, color: $0.color) })
+            // ペントミノを10個（8種類から2個追加）
+            for pentomino in pentominoes {
+                result.append(Polyomino(id: UUID(), cells: pentomino.cells, color: pentomino.color))
+            }
+            // 追加のペントミノ2個（最初の2種類を追加）
+            for i in 0..<2 {
+                result.append(Polyomino(id: UUID(), cells: pentominoes[i].cells, color: pentominoes[i].color))
+            }
+            result.append(contentsOf: hexominoes.map { Polyomino(id: UUID(), cells: $0.cells, color: $0.color) })
+            return result
         }
     }
 }

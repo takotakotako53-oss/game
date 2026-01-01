@@ -16,10 +16,22 @@ class GameViewModel: ObservableObject {
     func startNewGame() {
         gameBoard.reset()
         isGameComplete = false
-        availablePolyominoes = PolyominoShapes.getPolyominoes(for: selectedDifficulty)
-            .map { polyomino in
-                Polyomino(id: UUID(), cells: polyomino.cells, color: polyomino.color)
-            }
+        
+        switch selectedDifficulty {
+        case .easy, .medium:
+            // 正解の盤面から一部を切り取る方法
+            let result = PuzzleGenerator.generatePuzzleWithCutRegion(for: selectedDifficulty)
+            
+            // 残りの盤面の状態を設定
+            gameBoard.grid = result.filledGrid
+            
+            // 切り取った領域のポリオミノを利用可能リストに追加
+            availablePolyominoes = result.polyominoes
+            
+        case .hard:
+            // 現在の実装のまま（全体をランダムに切り分ける）
+            availablePolyominoes = PuzzleGenerator.generateSolvablePuzzle(for: selectedDifficulty)
+        }
     }
     
     func changeDifficulty(_ difficulty: Difficulty) {
